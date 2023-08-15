@@ -1,4 +1,4 @@
-package semana05;
+package Petshop;
 
 public class Cachorro {
 
