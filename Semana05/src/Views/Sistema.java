@@ -1,4 +1,4 @@
-package view;
+package Views;
 
 public class Sistema extends javax.swing.JFrame {
 

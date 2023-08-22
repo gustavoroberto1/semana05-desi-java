@@ -1,4 +1,4 @@
-package Banco;
+package Models;
 
 public class PessoaJuridica extends Pessoa {
     
@@ -8,6 +8,11 @@ public class PessoaJuridica extends Pessoa {
         super(nome);
         this.cnpj = cnpj;
     }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+    
 
     @Override
     public boolean validaDocumento(String documento) {

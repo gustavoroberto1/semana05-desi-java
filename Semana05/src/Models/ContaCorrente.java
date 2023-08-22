@@ -1,4 +1,4 @@
-package Banco;
+package Models;
 
 public class ContaCorrente extends Conta {
     

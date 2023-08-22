@@ -1,8 +1,8 @@
 package semana05;
 
-import Banco.Conta;
+import Models.Conta;
 import java.util.ArrayList;
-import view.Sistema;
+import Views.Sistema;
 
 public class Semana05 {
     

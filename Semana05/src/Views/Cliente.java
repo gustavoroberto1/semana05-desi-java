@@ -1,8 +1,17 @@
-package view;
+package Views;
+
+import Controllers.ContaController;
+import Models.Conta;
+import javax.swing.JOptionPane;
 
 public class Cliente extends javax.swing.JFrame {
     
-    public Cliente() {
+    private final ContaController contaController;
+    
+    public Cliente() {        
+        contaController = new ContaController();
+        solicitaDocumentoCliente();
+        
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -62,7 +71,7 @@ public class Cliente extends javax.swing.JFrame {
                         .addComponent(numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nomeTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -85,9 +94,9 @@ public class Cliente extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(numeroConta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(nomeTitular))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nomeTitular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -102,6 +111,17 @@ public class Cliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void solicitaDocumentoCliente() {
+        Conta conta = null;
+        do{
+            String doc = JOptionPane.showInputDialog("Informe seu documento (CPF/CNPJ)");       
+            conta = contaController.buscarContaPorDocumentoTitular(doc);
+        }while (conta == null); 
+        
+        System.out.println(String.valueOf(conta.getNumero()));
+        this.numeroConta.setText(String.valueOf(conta.getNumero()));
+    }   
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -1,4 +1,4 @@
-package Banco;
+package Models;
 
 public class PessoaFisica extends Pessoa {
     
@@ -9,6 +9,12 @@ public class PessoaFisica extends Pessoa {
         this.cpf = cpf;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    
+    
     @Override
     public boolean validaDocumento(String documento) {
         // VALIDA UM CPF

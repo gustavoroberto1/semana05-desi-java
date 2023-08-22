@@ -1,21 +1,31 @@
-package view;
+package Views;
 
+import Controllers.ContaController;
+import Controllers.PessoaController;
 import semana05.Semana05;
-import Banco.Conta;
-import Banco.ContaCorrente;
-import Banco.ContaPoupanca;
-import Banco.ContaSalario;
-import Banco.Pessoa;
-import Banco.PessoaFisica;
-import Banco.PessoaJuridica;
+import Models.Conta;
+import Models.Pessoa;
 import javax.swing.JOptionPane;
 
 public class Gerente extends javax.swing.JFrame {
-
+    
+    private final PessoaController pessoaController;
+    private final ContaController contaController;
+    
     public Gerente() {
         initComponents();
+        pessoaController = new PessoaController();
+        contaController = new ContaController();
+        
         this.setLocationRelativeTo(null);
     }
+    
+    
+    private void limparCampos() {
+        this.nomeTitular.setText("");
+        this.cpfOuCpf.setText("");
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -150,37 +160,28 @@ public class Gerente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void criarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_criarContaActionPerformed
-         String nome = this.nomeTitular.getText();
-         String cpfOuCnpj = this.cpfOuCpf.getText();
-         String tipoPessoa = (String) this.tipoTitular.getSelectedItem();
+        // PEGA INFORMAÇÕES DO TITULAR
+        String nome = this.nomeTitular.getText();
+        String cpfOuCnpj = this.cpfOuCpf.getText();
+        String tipoPessoa = (String) this.tipoTitular.getSelectedItem(); 
         
-         Pessoa titular = null;
-         if(tipoPessoa.equals("Pessoa Física")){
-             titular = new PessoaFisica(nome, cpfOuCnpj);
-         }else if(tipoPessoa.equals("Pessoa Jurídica")){
-             titular = new PessoaJuridica(nome, cpfOuCnpj);
-         }
-
-         Conta conta = null;
-         if(this.contaCorrente.isSelected()){
-            conta = new ContaCorrente(titular);
-         }else if(this.contaPoupanca.isSelected()){
-            conta = new ContaPoupanca(titular);
-         }else if(this.contaSalario.isSelected()){
-            conta = new ContaSalario(titular);
-         }
-         
-         
-         Semana05.banco.add(conta);
-         JOptionPane.showMessageDialog(this, "Sua conta foi criada com sucesso. O número dela é: " + conta.getNumero());
-         
-         this.nomeTitular.setText("");
-         this.cpfOuCpf.setText("");
-         
-         
-         for(Conta c : Semana05.banco){
-             System.out.println("Nº: " + c.getNumero() + " Titular: " + c.getTitular().getNome());
-         }
+        // CHAMA QUEM CRIA TITULAR
+        Pessoa titular = pessoaController.criarPessoa(nome, cpfOuCnpj, tipoPessoa);
+           
+        // PEGA INFORMAÇÕES DA CONTA
+        boolean corrente = this.contaCorrente.isSelected();
+        boolean poupanca = this.contaPoupanca.isSelected();
+        boolean salario = this.contaSalario.isSelected();     
+        
+        // CHAMA QUEM CRIA CONTA
+        int numeroConta = contaController.criarConta(titular, corrente, poupanca, salario);
+            
+        JOptionPane.showMessageDialog(this, "Sua conta foi criada com sucesso. O número dela é: " + numeroConta);
+        limparCampos();
+        
+        for(Conta c : Semana05.banco){
+            System.out.println("Nº: " + c.getNumero() + " Titular: " + c.getTitular().getNome());
+        }
          
     }//GEN-LAST:event_criarContaActionPerformed
 
