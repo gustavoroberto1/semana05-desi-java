@@ -4,18 +4,28 @@ import java.util.UUID;
 
 public class Pessoa {
 
-    public Pessoa(String nome) {
+    public Pessoa(String nome, String documento) {
         this.nome = nome;
+        this.documento = documento;
         this.id = UUID.randomUUID();
     }
     
     private UUID id;
     private String nome;
+    private String documento;
     
     public String getNome() {
         return nome;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+    
     public void setNome(String nome) {
         this.nome = nome;
     }

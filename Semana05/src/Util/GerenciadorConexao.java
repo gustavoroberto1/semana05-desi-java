@@ -3,6 +3,7 @@ package Util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import static semana05.Semana05.dotenv;
 
 public class GerenciadorConexao {
     private static Connection conexao;
@@ -10,9 +11,10 @@ public class GerenciadorConexao {
     public static Connection getConexao() {
         if(conexao == null){
             try {
-                String URL = "jdbc:postgresql://localhost:5432/banco-desi";
-                String user = "postgres";
-                String password = "senai";
+                String URL = dotenv.get("DB_URL");
+                String user = dotenv.get("DB_USER");
+                String password = dotenv.get("DB_PASSWORD");
+                
                 conexao = DriverManager.getConnection(URL, user, password);
                 System.out.println("SUCESSO!");
             }catch(SQLException e){

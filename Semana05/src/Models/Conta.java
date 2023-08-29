@@ -1,15 +1,18 @@
 package Models;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class Conta {
 
     public Conta(Pessoa titular) {
+        this.id = UUID.randomUUID();
         this.titular = titular;
         this.saldo = 0.0;
         this.numero = this.gerarNumeroConta();
     }
-
+    
+    private UUID id;
     private int numero;
     double saldo;
     private Pessoa titular;
