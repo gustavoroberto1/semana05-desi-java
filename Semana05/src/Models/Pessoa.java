@@ -10,6 +10,12 @@ public class Pessoa {
         this.id = UUID.randomUUID();
     }
     
+    public Pessoa(UUID id, String nome, String documento){
+        this.id = id;
+        this.nome = nome;
+        this.documento = documento;
+    }
+    
     private UUID id;
     private String nome;
     private String documento;

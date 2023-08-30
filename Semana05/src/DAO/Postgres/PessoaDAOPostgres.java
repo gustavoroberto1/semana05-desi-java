@@ -3,7 +3,6 @@ package DAO.Postgres;
 import DAO.PessoaDAO;
 import Models.Pessoa;
 import Models.PessoaFisica;
-import Util.GerenciadorConexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
