@@ -1,25 +1,17 @@
 package semana05;
 
+import Models.Conta;
 import java.util.ArrayList;
+import Views.Sistema;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Semana05 {
-
-    public static void main(String[] args) {
-        
-        ArrayList<Cachorro> listaDogs = new ArrayList<>();
-             
-        Dono donoUm = new Dono("Maçaneiro", "9999-9999", "Rua tal, nº aquele");
-        Dono donoDois = new Dono("Gustavo", "9999-9999", "Rua tal, nº aquele");
-         
-        listaDogs.add(new Cachorro("Bob Marley", "Pincher", 3,"Pequeno", donoUm));
-         
-        Cachorro dogDois = new Cachorro("Tunico", "Vira-lata", 2, "Médio", donoDois);
-        listaDogs.add(dogDois);
-               
-        for(Cachorro dog : listaDogs){
-            System.out.println(dog.getNome() +" - "+ dog.getDono().getNome());
-        }
-            
-    }
     
+    // DB FAKE
+    public static ArrayList<Conta> banco = new ArrayList<>();
+    public static Dotenv dotenv = Dotenv.load();
+            
+    public static void main(String[] args) {
+        new Sistema().setVisible(true);
+    }
 }
