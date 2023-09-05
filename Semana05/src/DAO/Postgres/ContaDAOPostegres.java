@@ -24,7 +24,7 @@ public class ContaDAOPostegres implements ContaDAO {
 
     @Override
     public void insereConta(Conta conta) {
-        String sql = "INSERT INTO conta (id, numero, saldo, tipo, pessoa_id) VALUES (?, ?, ?, CAST (? as tipo_conta), ?)";
+        String sql = "INSERT INTO conta (id, numero, saldo, tipo, pessoa_id, senha) VALUES (?, ?, ?, CAST (? as tipo_conta), ?, ?)";
         String tipoConta = (conta instanceof ContaCorrente) ? "corrente" : (conta instanceof ContaSalario) ? "salario" : "poupanca";
 
         try {
@@ -34,6 +34,7 @@ public class ContaDAOPostegres implements ContaDAO {
             stm.setDouble(3, conta.getSaldo());
             stm.setString(4, tipoConta);
             stm.setObject(5, conta.getTitular().getId());
+            stm.setString(6, conta.getSenha());
 
             stm.executeUpdate();
         } catch (SQLException error) {
@@ -43,7 +44,7 @@ public class ContaDAOPostegres implements ContaDAO {
 
     @Override
     public Conta buscarContaPorDocumentoTitular(String documento) {
-        String sql = "SELECT c.id, c.numero, c.saldo, c.tipo, c.pessoa_id, p.nome, p.tipo AS pessoa_tipo FROM conta AS c"
+        String sql = "SELECT c.id, c.numero, c.saldo, c.tipo, c.pessoa_id, c.senha, p.nome, p.tipo AS pessoa_tipo FROM conta AS c"
                 + " JOIN pessoa AS p ON c.pessoa_id = p.id WHERE p.documento = ?";
 
         try {
@@ -61,14 +62,15 @@ public class ContaDAOPostegres implements ContaDAO {
                 int numero = resultado.getInt("numero");
                 double saldo = resultado.getDouble("saldo");
                 String tipoC = resultado.getString("tipo");
+                String senha = resultado.getString("senha");
 
                 switch (tipoC) {
                     case "corrente":
-                        return new ContaCorrente(idConta, numero, saldo, pessoa);
+                        return new ContaCorrente(idConta, numero, saldo, pessoa, senha);
                     case "poupanca":
-                        return new ContaPoupanca(idConta, numero, saldo, pessoa);
+                        return new ContaPoupanca(idConta, numero, saldo, pessoa, senha);
                     case "salario":
-                        return new ContaSalario(idConta, numero, saldo, pessoa);
+                        return new ContaSalario(idConta, numero, saldo, pessoa, senha);
                     default:
                         return null;
                 }
