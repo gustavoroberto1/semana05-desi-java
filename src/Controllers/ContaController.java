@@ -1,15 +1,24 @@
 package Controllers;
 
+import Enums.TipoTransacao;
+import Factory.FactoryDAO;
 import static Factory.FactoryDAO.makeContaDAO;
 import Models.Conta;
 import Models.ContaCorrente;
 import Models.ContaPoupanca;
 import Models.ContaSalario;
 import Models.Pessoa;
+import Models.Transacao;
 import javax.swing.JOptionPane;
 import semana05.Semana05;
 
 public class ContaController {
+
+    private TransacaoController transacaoController;
+
+    public ContaController() {
+        transacaoController = new TransacaoController();
+    }
 
     public int criarConta(Pessoa titular, boolean corrente, boolean poupanca, boolean salario, String senha) {
         Conta conta = corrente ? new ContaCorrente(titular, senha) : poupanca ? new ContaPoupanca(titular, senha) : new ContaSalario(titular, senha);
@@ -35,6 +44,8 @@ public class ContaController {
         if (valor > 0) {
             conta.depositar(valor);
             makeContaDAO().atualizaSaldo(conta);
+            this.transacaoController.criarTransacao(valor, TipoTransacao.DEPOSITO, conta.getId());
+
         } else {
             JOptionPane.showMessageDialog(null, "VALOR INVÁLIDO PARA DEPOSITO!");
         }
@@ -45,6 +56,7 @@ public class ContaController {
         if (valor <= conta.getSaldo() && valor > 0) {
             conta.sacar(valor);
             makeContaDAO().atualizaSaldo(conta);
+            this.transacaoController.criarTransacao(valor, TipoTransacao.SAQUE, conta.getId());
         } else {
             JOptionPane.showMessageDialog(null, "VALOR INVÁLIDO OU INSUFICIENTE PARA SAQUE!");
         }
@@ -56,7 +68,9 @@ public class ContaController {
         if (conta.getSaldo() >= valor && valor > 0) {
             conta.transferir(destinatario, valor);
             makeContaDAO().atualizaSaldo(conta);
+            this.transacaoController.criarTransacao(valor, TipoTransacao.ENVIO_TRANSFERENCIA, conta.getId());
             makeContaDAO().atualizaSaldo(destinatario);
+            FactoryDAO.makeTransacao().registrarTransacao(new Transacao(valor, destinatario.getId(), TipoTransacao.RECEBIMENTO_TRANSFERENCIA));
         } else {
             JOptionPane.showMessageDialog(null, "Valor inválido.");
         }

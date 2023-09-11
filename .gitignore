@@ -2,3 +2,5 @@
 /Semana05/build/
 /Semana05/dist/
 .env
+/nbproject/private/
+/build/

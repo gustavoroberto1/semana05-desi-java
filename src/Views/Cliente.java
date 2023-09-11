@@ -5,17 +5,17 @@ import Models.Conta;
 import javax.swing.JOptionPane;
 
 public class Cliente extends javax.swing.JFrame {
-
+    
     private final ContaController contaController;
     private Conta conta = null;
-
+    
     public Cliente() {
         initComponents();
         contaController = new ContaController();
         solicitaDocumentoCliente();
         this.setLocationRelativeTo(null);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -167,7 +167,7 @@ public class Cliente extends javax.swing.JFrame {
                 } while (senhaValida == false);
             }
         } while (conta == null);
-
+        
         this.numeroConta.setText(String.valueOf(conta.getNumero()));
         this.nomeTitular.setText(conta.getTitular().getNome());
         this.saldo.setText("R$ " + String.valueOf(conta.getSaldo()));
@@ -176,33 +176,33 @@ public class Cliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String valor = JOptionPane.showInputDialog("INFORME O VALOR DO DEPÓSITO.");
         double valorConvertido = Double.parseDouble(valor);
-
+        
         conta = this.contaController.depositar(this.conta, valorConvertido);
-
+        
         this.saldo.setText("R$ " + String.valueOf(conta.getSaldo()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        new Extrato(this.conta).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String valor = JOptionPane.showInputDialog("INFORME O VALOR DO SAQUE.");
         double valorConvertido = Double.parseDouble(valor);
-
+        
         conta = this.contaController.sacar(this.conta, valorConvertido);
-
+        
         this.saldo.setText("R$ " + String.valueOf(conta.getSaldo()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void transferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferirActionPerformed
         String pergunta = JOptionPane.showInputDialog("Digite o documento da conta para transferir:");
         Conta contaTrans = contaController.buscarContaPorDocumentoTitular(pergunta);
-
+        
         Double valor = Double.parseDouble(JOptionPane.showInputDialog("INFORME O VALOR DO SAQUE."));
         conta = contaController.transferir(this.conta, contaTrans, valor);
         this.saldo.setText("R$ " + String.valueOf(conta.getSaldo()));
-
+        
 
     }//GEN-LAST:event_transferirActionPerformed
 
